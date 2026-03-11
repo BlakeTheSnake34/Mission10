@@ -16,7 +16,9 @@ function BowlerTable() {
   const [bowlers, setBowlers] = useState<Bowler[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:5167/Bowlers")
+    const apiBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5167";
+
+    fetch(`${apiBase}/Bowlers`)
       .then((response) => response.json())
       .then((data: Bowler[]) => setBowlers(data))
       .catch((error) => console.error("Error fetching bowlers:", error));

@@ -1,3 +1,4 @@
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using backend.Models;
 
@@ -5,8 +6,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+var dbPath = Path.Combine(builder.Environment.ContentRootPath, "BowlingLeague.sqlite");
+
 builder.Services.AddDbContext<BowlingLeagueContext>(options =>
-    options.UseSqlite("Data Source=BowlingLeague.sqlite"));
+    options.UseSqlite($"Data Source={dbPath}"));
 
 builder.Services.AddCors(options =>
 {
@@ -21,9 +24,7 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 app.UseCors("AllowReactApp");
-
 app.UseAuthorization();
-
 app.MapGet("/", () => "API is running");
 app.MapControllers();
 
